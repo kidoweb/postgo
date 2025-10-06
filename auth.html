@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация - POST GO</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Секция авторизации -->
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <a href="index.html" class="back-btn mobile-only">←</a>
+                    <div class="auth-logo">
+                        <h1><span class="logo-text-black">POST GO</span> <span class="logo-text-blue">АККАУНТ</span></h1>
+                    </div>
+                </div>
+
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-auth-tab="login">Вход</button>
+                    <button class="auth-tab" data-auth-tab="register">Регистрация</button>
+                    <button class="auth-tab" data-auth-tab="reset">Восстановление</button>
+                </div>
+
+                <!-- Вход -->
+                <form class="auth-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="loginPhone" class="form-label">Номер телефона</label>
+                        <input type="tel" id="loginPhone" class="form-input phone-input" autocomplete="tel" required>
+                    </div>
+                    <div class="form-group password-group">
+                        <label for="loginPassword" class="form-label">Пароль</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="loginPassword" class="form-input" autocomplete="current-password" required>
+                            <button type="button" class="password-toggle" data-target="loginPassword" aria-label="Показать пароль">👁</button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-dark btn-large btn-full">Войти</button>
+                </form>
+
+                <!-- Регистрация -->
+                <form class="auth-form" id="registerForm" style="display: none;">
+                    <div class="form-group">
+                        <label for="regName" class="form-label">Имя</label>
+                        <input type="text" id="regName" class="form-input" autocomplete="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPhone" class="form-label">Номер телефона</label>
+                        <input type="tel" id="regPhone" class="form-input phone-input" autocomplete="tel" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group password-group" style="flex:1;">
+                            <label for="regPassword" class="form-label">Пароль</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="regPassword" class="form-input" autocomplete="new-password" required>
+                                <button type="button" class="password-toggle" data-target="regPassword" aria-label="Показать пароль">👁</button>
+                            </div>
+                        </div>
+                        <div class="form-group password-group" style="flex:1;">
+                            <label for="regConfirm" class="form-label">Повторите пароль</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="regConfirm" class="form-input" autocomplete="new-password" required>
+                                <button type="button" class="password-toggle" data-target="regConfirm" aria-label="Показать пароль">👁</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-agreement">
+                        <p>Создавая аккаунт, вы принимаете условия обработки персональных данных.</p>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-large btn-full">Зарегистрироваться</button>
+                </form>
+
+                <!-- Восстановление пароля -->
+                <form class="auth-form" id="resetForm" style="display: none;">
+                    <div class="form-group">
+                        <label for="resetPhone" class="form-label">Номер телефона</label>
+                        <input type="tel" id="resetPhone" class="form-input phone-input" autocomplete="tel" required>
+                    </div>
+                    <button type="submit" class="btn btn-outline btn-large btn-full">Отправить код</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Нижнее меню для мобильной версии -->
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">🏠</span>
+        </a>
+        <a href="services.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">📦</span>
+        </a>
+        <a href="tracking.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">📍</span>
+        </a>
+        <a href="auth.html" class="mobile-nav-item active">
+            <span class="mobile-nav-icon">👤</span>
+        </a>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

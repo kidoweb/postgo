@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отслеживание груза - POST GO</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <span class="logo-icon">📦</span>
+                    <span class="logo-text">POST GO</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Главная</a></li>
+                    <li><a href="services.html" class="nav-link">Услуги</a></li>
+                    <li><a href="tracking.html" class="nav-link active">Трекер</a></li>
+                    <li><a href="auth.html" class="nav-link">Профиль</a></li>
+                </ul>
+                <a href="order.html" class="btn btn-primary">Заказать</a>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Секция отслеживания -->
+    <section class="tracking-section">
+        <div class="container">
+            <div class="page-header">
+                <a href="index.html" class="back-btn">←</a>
+                <h1 class="page-title">Отслеживание груза</h1>
+            </div>
+
+            <div class="tracking-search">
+                <div class="search-box-large">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="trackingInput" placeholder="Введите номер отслеживания" class="search-input-large">
+                </div>
+                <button class="btn btn-primary" id="trackingBtn">Найти</button>
+            </div>
+
+            <div class="tracking-empty" id="trackingEmpty">
+                <div class="tracking-icon-large">📍</div>
+                <h2 class="tracking-empty-title">Отследите ваш груз</h2>
+                <p class="tracking-empty-text">Введите номер отслеживания, чтобы увидеть текущее местоположение и статус вашего груза</p>
+                <div class="tracking-example">
+                    <input type="text" placeholder="Пример номера: TRK-5678-ABCD" class="tracking-example-input" readonly>
+                </div>
+            </div>
+
+            <div class="tracking-result" id="trackingResult" style="display: none;">
+                <div class="tracking-map">
+                    <div class="map-container">
+                        <div id="yandexMap" class="yandex-map"></div>
+                    </div>
+                    <div class="tracking-info">
+                        <div class="tracking-date">
+                            <h3>Доставка ожидается</h3>
+                            <div class="tracking-date-value">13 июня</div>
+                        </div>
+                        <div class="tracking-status-list">
+                            <div class="tracking-status-item active">
+                                <div class="status-dot active"></div>
+                                <div class="status-text">В пути</div>
+                            </div>
+                            <div class="tracking-status-item inactive">
+                                <div class="status-dot"></div>
+                                <div class="status-text">Товар отгружен</div>
+                            </div>
+                            <div class="tracking-status-item inactive">
+                                <div class="status-dot"></div>
+                                <div class="status-text">Товар упакован</div>
+                            </div>
+                            <div class="tracking-status-item inactive">
+                                <div class="status-dot"></div>
+                                <div class="status-text">Заказ принят</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Нижнее меню для мобильной версии -->
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">🏠</span>
+        </a>
+        <a href="services.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">📦</span>
+        </a>
+        <a href="tracking.html" class="mobile-nav-item active">
+            <span class="mobile-nav-icon">📍</span>
+        </a>
+        <a href="auth.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">👤</span>
+        </a>
+    </nav>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=YOUR_YANDEX_API_KEY" defer></script>
+    <script src="script.js"></script>
+</body>
+</html>
+

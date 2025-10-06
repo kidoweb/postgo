@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наши услуги - POST GO</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <span class="logo-icon">📦</span>
+                    <span class="logo-text">POST GO</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Главная</a></li>
+                    <li><a href="services.html" class="nav-link active">Услуги</a></li>
+                    <li><a href="tracking.html" class="nav-link">Трекер</a></li>
+                    <li><a href="auth.html" class="nav-link">Профиль</a></li>
+                </ul>
+                <a href="order.html" class="btn btn-primary">Заказать</a>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Секция услуг -->
+    <section class="services-page">
+        <div class="container">
+            <div class="section-header">
+                <h1 class="page-title">Наши услуги</h1>
+                <p class="section-subtitle">Профессиональные услуги грузоперевозок для всех ваших потребностей</p>
+            </div>
+
+            <div class="services-filters">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Поиск услуг" class="search-input">
+                </div>
+                <button class="btn btn-primary">Найти</button>
+            </div>
+
+            <div class="filter-tabs">
+                <button class="filter-tab active">Все</button>
+                <button class="filter-tab">Транспорт</button>
+                <button class="filter-tab">Погрузка</button>
+                <button class="filter-tab">Другое</button>
+            </div>
+
+            <div class="services-grid">
+                <!-- Малогабаритные перевозки -->
+                <div class="service-card">
+                    <div class="service-badge">Популярная</div>
+                    <h3 class="service-title">Малогабаритные перевозки</h3>
+                    <p class="service-description">Доставка небольших грузов до 15 тонн по городу и области</p>
+                    <div class="service-price">от 40 BYN/час</div>
+                    <div class="service-actions">
+                        <a href="order.html" class="btn btn-outline">Подробнее</a>
+                        <a href="order.html" class="btn btn-dark">Заказать →</a>
+                    </div>
+                </div>
+
+                <!-- Средние перевозки -->
+                <div class="service-card">
+                    <h3 class="service-title">Средние перевозки</h3>
+                    <p class="service-description">Доставка небольших грузов от 15 тонн на средние и дальние расстояния</p>
+                    <div class="service-price">от 60 BYN/час</div>
+                    <div class="service-actions">
+                        <a href="order.html" class="btn btn-outline">Подробнее</a>
+                        <a href="order.html" class="btn btn-dark">Заказать →</a>
+                    </div>
+                </div>
+
+                <!-- Крупногабаритные перевозки -->
+                <div class="service-card">
+                    <div class="service-badge">Популярная</div>
+                    <h3 class="service-title">Крупногабаритные перевозки</h3>
+                    <p class="service-description">Транспортировка тяжелых и крупногабаритных грузов свыше 5 тонн</p>
+                    <div class="service-price">от 90 BYN/час</div>
+                    <div class="service-actions">
+                        <a href="order.html" class="btn btn-outline">Подробнее</a>
+                        <a href="order.html" class="btn btn-dark">Заказать →</a>
+                    </div>
+                </div>
+
+                <!-- Услуги грузчиков -->
+                <div class="service-card">
+                    <h3 class="service-title">Услуги грузчиков</h3>
+                    <p class="service-description">Аренда погрузчика с оператором для работы на складах и строительных площадках</p>
+                    <div class="service-price">от 25 BYN/час за 1 чел.</div>
+                    <div class="service-actions">
+                        <a href="order.html" class="btn btn-outline">Подробнее</a>
+                        <a href="order.html" class="btn btn-dark">Заказать →</a>
+                    </div>
+                </div>
+
+                <!-- Услуги погрузчика -->
+                <div class="service-card">
+                    <h3 class="service-title">Услуги погрузчика</h3>
+                    <p class="service-description">Аренда погрузчика с оператором для работы на складах и строительных площадках</p>
+                    <div class="service-price">от 70 BYN/час</div>
+                    <div class="service-actions">
+                        <a href="order.html" class="btn btn-outline">Подробнее</a>
+                        <a href="order.html" class="btn btn-dark">Заказать →</a>
+                    </div>
+                </div>
+
+                <!-- Упаковка грузов -->
+                <div class="service-card">
+                    <h3 class="service-title">Упаковка грузов</h3>
+                    <p class="service-description">Надежные решения для упаковки хрупких и ценных предметов</p>
+                    <div class="service-price">от 15 BYN/ед.</div>
+                    <div class="service-actions">
+                        <a href="order.html" class="btn btn-outline">Подробнее</a>
+                        <a href="order.html" class="btn btn-dark">Заказать →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Нижнее меню для мобильной версии -->
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">🏠</span>
+        </a>
+        <a href="services.html" class="mobile-nav-item active">
+            <span class="mobile-nav-icon">📦</span>
+        </a>
+        <a href="tracking.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">📍</span>
+        </a>
+        <a href="auth.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">👤</span>
+        </a>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оформление заказа - POST GO</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <span class="logo-icon">📦</span>
+                    <span class="logo-text">POST GO</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Главная</a></li>
+                    <li><a href="services.html" class="nav-link">Услуги</a></li>
+                    <li><a href="tracking.html" class="nav-link">Трекер</a></li>
+                    <li><a href="auth.html" class="nav-link">Профиль</a></li>
+                </ul>
+                <a href="order.html" class="btn btn-primary">Заказать</a>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Секция оформления заказа -->
+    <section class="order-section">
+        <div class="container">
+            <div class="page-header">
+                <a href="index.html" class="back-btn mobile-only">←</a>
+                <h1 class="page-title">Оформление заказа</h1>
+            </div>
+
+            <p class="section-subtitle">Заполните данные для расчета стоимости и оформления заказа грузоперевозки</p>
+
+            <!-- Опции доставки -->
+            <div class="delivery-options-full">
+                <div class="delivery-option-card">
+                    <div class="delivery-icon-large">🚚</div>
+                    <div class="delivery-content">
+                        <h3>Стандартная перевозка</h3>
+                        <p>Доставка груза за 1-2 дня</p>
+                        <div class="delivery-price-large">от 250 BYN</div>
+                    </div>
+                    <button class="btn btn-outline">Выбрать</button>
+                </div>
+
+                <div class="delivery-option-card">
+                    <div class="delivery-icon-large">🚚</div>
+                    <div class="delivery-content">
+                        <h3>Экспресс доставка</h3>
+                        <p>Доставка в течении 24 ч</p>
+                        <div class="delivery-price-large">от 350 BYN</div>
+                    </div>
+                    <button class="btn btn-outline">Выбрать</button>
+                </div>
+
+                <div class="delivery-option-card">
+                    <div class="delivery-icon-large">🚚</div>
+                    <div class="delivery-content">
+                        <h3>Доставка с грузчиками</h3>
+                        <p>Погрузка и разгрузка включены</p>
+                        <div class="delivery-price-large">от 300 BYN</div>
+                    </div>
+                    <button class="btn btn-outline">Выбрать</button>
+                </div>
+            </div>
+
+            <!-- Форма заказа -->
+            <div class="order-form-container">
+                <div class="order-tabs">
+                    <button class="order-tab active" data-tab="form">Оформление заказа</button>
+                    <button class="order-tab" data-tab="calculator">Калькулятор</button>
+                </div>
+
+                <form class="order-form" id="orderForm">
+                    <div class="form-section">
+                        <h3 class="form-section-title">Тип вашей доставки</h3>
+                        <div class="form-group">
+                            <label for="deliveryType" class="form-label">Выбранный тип доставки</label>
+                            <input type="text" id="deliveryType" class="form-input" value="Стандартная доставка" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="form-section-title">Детали груза</h3>
+                        <p class="form-section-subtitle">Укажите информацию о вашем грузе</p>
+                        
+                        <div class="form-group">
+                            <label for="cargoType" class="form-label">Тип груза</label>
+                            <input type="text" id="cargoType" class="form-input" placeholder="Мебель">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="weight" class="form-label">Вес(кг)</label>
+                                <input type="number" id="weight" class="form-input" placeholder="100" value="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="volume" class="form-label">Объем (м³)</label>
+                                <input type="number" id="volume" class="form-input" placeholder="2" value="2">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="deliveryDate" class="form-label">Предпочтительная дата доставки</label>
+                            <input type="date" id="deliveryDate" class="form-input" value="2025-04-13">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Нужны грузчики?</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="loaders" value="yes">
+                                    <span>Да</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="loaders" value="no" checked>
+                                    <span>Нет</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-large btn-full">Оформить заказ</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Нижнее меню для мобильной версии -->
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">🏠</span>
+        </a>
+        <a href="services.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">📦</span>
+        </a>
+        <a href="tracking.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">📍</span>
+        </a>
+        <a href="auth.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">👤</span>
+        </a>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
