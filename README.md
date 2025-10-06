@@ -346,6 +346,6 @@ self.addEventListener('fetch', ev => {
 
 ## 📬 Контакты
 
-**Разработчик**: kidoweb — Telegram: @kidoweb — Email: [support@postgo.by](mailto:support@postgo.by)
+**Разработчик**: kidoweb — Telegram: [@kidoweb](https://t.me/kidoweb) — Email: [support@postgo.by](mailto:support@postgo.by)
 
 ---
