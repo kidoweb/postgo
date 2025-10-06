@@ -521,6 +521,11 @@ window.addEventListener('load', () => {
     
     // Добавляем класс loaded к body
     document.body.classList.add('loaded');
+
+    // Регистрация сервис-воркера для PWA
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(console.error);
+    }
 });
 
 // ==================== Консольное сообщение ====================
