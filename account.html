@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кабинет - POST GO</title>
+    <meta name="theme-color" content="#0066FF">
+    <link rel="icon" type="image/png" href="icons8-коробка-64.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+    </style>
+    <script defer src="script.js"></script>
+    <script>
+        // Маркер страницы для инициализации кабинета
+        window.__POSTGO_ACCOUNT_PAGE__ = true;
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <span class="logo-icon">📦</span>
+                    <span class="logo-text">POST GO</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Главная</a></li>
+                    <li><a href="services.html" class="nav-link">Услуги</a></li>
+                    <li><a href="tracking.html" class="nav-link">Трекер</a></li>
+                    <li><a href="account.html" class="nav-link active">Кабинет</a></li>
+                </ul>
+                <a href="order.html" class="btn btn-primary">Заказать</a>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <section class="services-section">
+        <div class="container">
+            <div class="page-header">
+                <a href="index.html" class="back-btn">←</a>
+                <h1 class="page-title">Кабинет клиента</h1>
+            </div>
+
+            <div class="auth-tabs account-tabs">
+                <button class="auth-tab active" data-account-tab="profile">Профиль</button>
+                <button class="auth-tab" data-account-tab="orders">Заказы</button>
+                <button class="auth-tab" data-account-tab="payments">Оплата</button>
+                <button class="auth-tab" data-account-tab="notifications">Уведомления</button>
+            </div>
+
+            <!-- Профиль -->
+            <div id="accountProfile" class="account-section">
+                <div class="orders-card">
+                    <h2 style="margin-bottom:16px;">Профиль</h2>
+                    <form class="auth-form" id="profileForm">
+                        <div class="form-group">
+                            <label class="form-label">Имя</label>
+                            <input type="text" id="accName" class="form-input" placeholder="Ваше имя">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Телефон</label>
+                            <input type="tel" id="accPhone" class="form-input phone-input" placeholder="+375(xx)xxx-xx-xx">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                            <button type="button" id="btnLogout" class="btn btn-outline">Выйти</button>
+                            <button type="button" id="btnDeleteAcc" class="btn btn-dark">Удалить аккаунт</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="orders-card" style="margin-top:20px;">
+                    <h2 style="margin-bottom:16px;">Адреса</h2>
+                    <form class="auth-form" id="addressForm">
+                        <div class="form-row">
+                            <div class="form-group" style="flex:1;">
+                                <label class="form-label">Откуда</label>
+                                <input type="text" id="addrFrom" class="form-input" placeholder="Город, улица...">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label class="form-label">Куда</label>
+                                <input type="text" id="addrTo" class="form-input" placeholder="Город, улица...">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-outline">Добавить адрес</button>
+                    </form>
+                    <div class="table-responsive" style="margin-top:12px;">
+                        <table class="table" id="addressesTable">
+                            <thead>
+                                <tr><th>#</th><th>Откуда</th><th>Куда</th><th>Действия</th></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Заказы -->
+            <div id="accountOrders" class="account-section" style="display:none;">
+                <div class="account-summary" id="accountSummary"></div>
+                <div class="orders-card">
+                    <div class="orders-card-header">
+                        <h2>Мои заказы</h2>
+                        <a href="order.html" class="btn btn-primary">Новый заказ</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table" id="ordersTable">
+                            <thead>
+                                <tr>
+                                    <th>№</th>
+                                    <th>Дата</th>
+                                    <th>Тип</th>
+                                    <th>Груз</th>
+                                    <th>Вес</th>
+                                    <th>Объем</th>
+                                    <th>Сумма</th>
+                                    <th>Статус</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Оплата -->
+            <div id="accountPayments" class="account-section" style="display:none;">
+                <div class="orders-card">
+                    <h2 style="margin-bottom:16px;">Способы оплаты</h2>
+                    <p class="section-subtitle" style="margin:0 0 12px 0;">Сохраняйте предпочитаемые методы оплаты (мок‑режим).</p>
+                    <form class="auth-form" id="paymentForm">
+                        <div class="form-row">
+                            <div class="form-group" style="flex:1;">
+                                <label class="form-label">Провайдер</label>
+                                <select id="payProvider" class="form-input">
+                                    <option>CloudPayments</option>
+                                    <option>Yandex Pay</option>
+                                    <option>Stripe</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label class="form-label">Метка (например, Компания)</label>
+                                <input type="text" id="payLabel" class="form-input" placeholder="Название">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-outline">Добавить способ</button>
+                    </form>
+                    <div class="table-responsive" style="margin-top:12px;">
+                        <table class="table" id="paymentsTable">
+                            <thead>
+                                <tr><th>#</th><th>Провайдер</th><th>Метка</th><th>Действия</th></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Уведомления -->
+            <div id="accountNotifications" class="account-section" style="display:none;">
+                <div class="orders-card">
+                    <h2 style="margin-bottom:16px;">🔔 Push-уведомления</h2>
+                    <p class="section-subtitle" style="margin:0 0 20px 0;">Управляйте уведомлениями о статусе ваших заказов и важных обновлениях.</p>
+                    
+                    <div class="notification-settings">
+                        <div class="notification-item">
+                            <div class="notification-info">
+                                <h3>Статус уведомлений</h3>
+                                <p id="notificationStatusText">Проверяем статус...</p>
+                            </div>
+                            <div class="notification-actions">
+                                <button id="notificationToggleBtn" class="btn btn-outline">Включить</button>
+                            </div>
+                        </div>
+
+                        <div class="notification-item">
+                            <div class="notification-info">
+                                <h3>Тестовое уведомление</h3>
+                                <p>Отправить тестовое уведомление для проверки работы</p>
+                            </div>
+                            <div class="notification-actions">
+                                <button id="testNotificationBtn" class="btn test-notification-btn">Отправить тест</button>
+                            </div>
+                        </div>
+
+                        <div class="notification-item">
+                            <div class="notification-info">
+                                <h3>Типы уведомлений</h3>
+                                <p>Выберите, какие уведомления вы хотите получать</p>
+                            </div>
+                            <div class="notification-preferences">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="notifyOrderStatus" checked>
+                                    <span class="checkmark"></span>
+                                    Статус заказов
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="notifyPayment" checked>
+                                    <span class="checkmark"></span>
+                                    Оплата и счета
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="notifyDelivery" checked>
+                                    <span class="checkmark"></span>
+                                    Доставка и трекинг
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="notifyPromotions">
+                                    <span class="checkmark"></span>
+                                    Акции и предложения
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notification-help">
+                        <h3>💡 Справка</h3>
+                        <ul>
+                            <li>Push-уведомления работают только в поддерживаемых браузерах</li>
+                            <li>Уведомления будут приходить даже когда приложение закрыто</li>
+                            <li>Вы можете отключить уведомления в любой момент</li>
+                            <li>Настройки сохраняются локально на вашем устройстве</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">🏠</span>
+        </a>
+        <a href="services.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">📦</span>
+        </a>
+        <a href="tracking.html" class="mobile-nav-item">
+            <span class="mobile-nav-icon">📍</span>
+        </a>
+        <a href="account.html" class="mobile-nav-item active">
+            <span class="mobile-nav-icon">👤</span>
+        </a>
+    </nav>
+</body>
+</html>
+
