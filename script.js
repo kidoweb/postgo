@@ -161,6 +161,11 @@ if (registerForm) {
         users.push({ name, phone, password });
         setUsers(users);
 
+        // Отправляем уведомление о создании аккаунта
+        if (window.notificationManager) {
+            window.notificationManager.create(window.NotificationTemplates.accountCreated(name));
+        }
+
         showModal({
             type: 'success',
             title: 'Регистрация успешна',
@@ -191,6 +196,12 @@ if (loginForm) {
         }
 
         localStorage.setItem('postgo_session_user', JSON.stringify({ name: user.name, phone: user.phone }));
+        
+        // Отправляем приветственное уведомление
+        if (window.notificationManager) {
+            window.notificationManager.create(window.NotificationTemplates.welcome(user.name));
+        }
+        
         showModal({ type: 'success', title: 'Добро пожаловать!', message: `${user.name}, вы успешно вошли.`, actions: [{ label: 'В кабинет', variant: 'primary', handler: () => window.location.href = 'account.html' }] });
     });
 }
@@ -366,6 +377,11 @@ if (orderForm) {
             status: 'Новый'
         };
         saveOrder(order);
+
+        // Отправляем уведомление о создании заказа
+        if (window.notificationManager) {
+            window.notificationManager.create(window.NotificationTemplates.orderCreated(order));
+        }
 
         showModal({ type: 'success', title: 'Заказ оформлен', message: `Трек‑номер: <b>${trackingNumber}</b><br>Сумма к оплате: <b>${price} BYN</b>`, actions: [
             { label: 'Оплатить', variant: 'primary', handler: () => openPaymentModal(order.id) },
@@ -992,6 +1008,13 @@ function openPaymentModal(orderId){
                     // эмуляция подтверждения провайдером
                     setTimeout(()=>{
                         updateOrder(orderId, { status:'Оплачен', paidAt:new Date().toISOString(), provider });
+                        
+                        // Отправляем уведомление об успешной оплате
+                        const order = getAllOrders().find(x => x.id === orderId);
+                        if (window.notificationManager && order) {
+                            window.notificationManager.create(window.NotificationTemplates.orderPaid(order));
+                        }
+                        
                         showModal({ type:'success', title:'Оплата успешна', message:`Провайдер: ${provider}`, actions:[{label:'Готово', variant:'primary', handler:()=>location.reload()}]});
                     }, 600);
                 }}
@@ -1139,7 +1162,17 @@ function renderAccount(){
             if (action === 'pay') openPaymentModal(id);
             if (action === 'invoice') openInvoice(id);
             if (action === 'cancel') {
-                showModal({ type:'warning', title:'Отмена заказа', message:'Подтвердите отмену заказа.', actions:[{label:'Нет', variant:'outline'},{label:'Да', variant:'primary', handler:()=>{ updateOrder(id, { status:'Отменен' }); location.reload(); }}]});
+                showModal({ type:'warning', title:'Отмена заказа', message:'Подтвердите отмену заказа.', actions:[{label:'Нет', variant:'outline'},{label:'Да', variant:'primary', handler:()=>{ 
+                    updateOrder(id, { status:'Отменен' }); 
+                    
+                    // Отправляем уведомление об отмене
+                    const order = getAllOrders().find(o => o.id === id);
+                    if (window.notificationManager && order) {
+                        window.notificationManager.create(window.NotificationTemplates.orderCancelled(order));
+                    }
+                    
+                    location.reload(); 
+                }}]});
             }
         });
     }
@@ -1296,4 +1329,212 @@ function initNotificationSection() {
 
 // Инициализация кабинета
 renderAccount();
+
+// ==================== Центр уведомлений ====================
+function initNotificationCenter() {
+    const bellBtn = document.getElementById('notificationBellBtn');
+    const notificationCenter = document.getElementById('notificationCenter');
+    const notificationList = document.getElementById('notificationList');
+    const markAllReadBtn = document.getElementById('markAllReadBtn');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+
+    if (!bellBtn || !notificationCenter || !notificationList) return;
+
+    // Переключение центра уведомлений
+    bellBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isVisible = notificationCenter.classList.contains('show');
+        
+        if (isVisible) {
+            notificationCenter.classList.remove('show');
+        } else {
+            notificationCenter.classList.add('show');
+            renderNotificationList();
+        }
+    });
+
+    // Закрытие при клике вне области
+    document.addEventListener('click', (e) => {
+        if (!notificationCenter.contains(e.target) && !bellBtn.contains(e.target)) {
+            notificationCenter.classList.remove('show');
+        }
+    });
+
+    // Прочитать все
+    if (markAllReadBtn) {
+        markAllReadBtn.addEventListener('click', () => {
+            if (window.notificationManager) {
+                window.notificationManager.markAllAsRead();
+                renderNotificationList();
+            }
+        });
+    }
+
+    // Очистить все
+    if (clearAllBtn) {
+        clearAllBtn.addEventListener('click', () => {
+            if (window.notificationManager) {
+                showModal({
+                    type: 'warning',
+                    title: 'Очистить уведомления?',
+                    message: 'Вы уверены, что хотите удалить все уведомления?',
+                    actions: [
+                        { label: 'Отмена', variant: 'outline' },
+                        { label: 'Очистить', variant: 'primary', handler: () => {
+                            window.notificationManager.clear();
+                            renderNotificationList();
+                            notificationCenter.classList.remove('show');
+                        }}
+                    ]
+                });
+            }
+        });
+    }
+
+    // Рендер списка уведомлений
+    function renderNotificationList() {
+        if (!window.notificationManager) return;
+
+        const notifications = window.notificationManager.getAll();
+        
+        if (notifications.length === 0) {
+            notificationList.innerHTML = `
+                <div class="notification-center-empty">
+                    <div class="notification-center-empty-icon">🔔</div>
+                    <div>Нет уведомлений</div>
+                </div>
+            `;
+            return;
+        }
+
+        notificationList.innerHTML = notifications.map(notif => `
+            <div class="notification-list-item ${notif.read ? '' : 'unread'}" data-id="${notif.id}">
+                <div class="notification-list-icon notification-toast-icon" style="${getIconStyle(notif.type)}">
+                    ${getNotificationIcon(notif.type)}
+                </div>
+                <div class="notification-list-content">
+                    <div class="notification-list-title">${notif.title}</div>
+                    <div class="notification-list-message">${notif.message}</div>
+                    <div class="notification-list-time">${formatNotificationTime(notif.timestamp)}</div>
+                </div>
+                <button class="notification-list-delete" data-id="${notif.id}">✕</button>
+            </div>
+        `).join('');
+
+        // Обработчики для элементов списка
+        notificationList.querySelectorAll('.notification-list-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('notification-list-delete')) {
+                    const id = item.getAttribute('data-id');
+                    const notification = notifications.find(n => n.id === id);
+                    if (notification && window.notificationManager) {
+                        window.notificationManager.handleNotificationClick(notification);
+                        notificationCenter.classList.remove('show');
+                    }
+                }
+            });
+        });
+
+        // Обработчики кнопок удаления
+        notificationList.querySelectorAll('.notification-list-delete').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn.getAttribute('data-id');
+                if (window.notificationManager) {
+                    window.notificationManager.delete(id);
+                    renderNotificationList();
+                }
+            });
+        });
+    }
+
+    // Получить стиль иконки
+    function getIconStyle(type) {
+        const styles = {
+            success: 'background: rgba(40, 167, 69, 0.1); color: var(--success-color);',
+            error: 'background: rgba(220, 53, 69, 0.1); color: var(--error-color);',
+            warning: 'background: rgba(255, 193, 7, 0.1); color: var(--warning-color);',
+            info: 'background: rgba(0, 102, 255, 0.1); color: var(--primary-color);'
+        };
+        return styles[type] || styles.info;
+    }
+
+    // Получить иконку уведомления
+    function getNotificationIcon(type) {
+        const icons = {
+            success: '✓',
+            error: '✕',
+            warning: '⚠',
+            info: 'ℹ'
+        };
+        return icons[type] || 'ℹ';
+    }
+
+    // Форматирование времени
+    function formatNotificationTime(timestamp) {
+        const now = Date.now();
+        const diff = now - timestamp;
+        const minutes = Math.floor(diff / 60000);
+        const hours = Math.floor(diff / 3600000);
+        const days = Math.floor(diff / 86400000);
+
+        if (minutes < 1) return 'только что';
+        if (minutes < 60) return `${minutes} мин. назад`;
+        if (hours < 24) return `${hours} ч. назад`;
+        if (days < 7) return `${days} дн. назад`;
+        
+        const date = new Date(timestamp);
+        return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
+    }
+
+    // Слушаем события обновления уведомлений
+    window.addEventListener('notification:created', () => {
+        if (notificationCenter.classList.contains('show')) {
+            renderNotificationList();
+        }
+        // Анимация колокольчика
+        bellBtn.classList.add('has-unread');
+        setTimeout(() => bellBtn.classList.remove('has-unread'), 500);
+    });
+
+    window.addEventListener('notification:read', () => {
+        if (notificationCenter.classList.contains('show')) {
+            renderNotificationList();
+        }
+    });
+
+    window.addEventListener('notification:deleted', () => {
+        if (notificationCenter.classList.contains('show')) {
+            renderNotificationList();
+        }
+    });
+
+    window.addEventListener('notifications:allread', () => {
+        if (notificationCenter.classList.contains('show')) {
+            renderNotificationList();
+        }
+    });
+
+    window.addEventListener('notifications:cleared', () => {
+        renderNotificationList();
+    });
+
+    window.addEventListener('notifications:updated', () => {
+        if (notificationCenter.classList.contains('show')) {
+            renderNotificationList();
+        }
+    });
+
+    // Начальная инициализация badge
+    if (window.notificationManager) {
+        window.notificationManager.updateBadge();
+    }
+}
+
+// Инициализируем центр уведомлений при загрузке
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNotificationCenter);
+} else {
+    initNotificationCenter();
+}
 
